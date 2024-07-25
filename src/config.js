@@ -37,3 +37,17 @@ iptables -D FORWARD -o wg0 -j ACCEPT;
 module.exports.LANG = process.env.LANG || 'en';
 module.exports.UI_TRAFFIC_STATS = process.env.UI_TRAFFIC_STATS || 'false';
 module.exports.UI_CHART_TYPE = process.env.UI_CHART_TYPE || 0;
+
+const getRandomInt = (min, max) => min + Math.floor(Math.random() * (max - min));
+const getRandomJunkSize = () => getRandomInt(15, 150);
+const getRandomHeader = () => getRandomInt(1, 2_147_483_647);
+
+module.exports.JC = process.env.JC || getRandomInt(3, 10);
+module.exports.JMIN = process.env.JMIN || 50;
+module.exports.JMAX = process.env.JMAX || 1000;
+module.exports.S1 = process.env.S1 || getRandomJunkSize();
+module.exports.S2 = process.env.S2 || getRandomJunkSize();
+module.exports.H1 = process.env.H1 || getRandomHeader();
+module.exports.H2 = process.env.H2 || getRandomHeader();
+module.exports.H3 = process.env.H3 || getRandomHeader();
+module.exports.H4 = process.env.H4 || getRandomHeader();
