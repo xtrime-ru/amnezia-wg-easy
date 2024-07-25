@@ -88,6 +88,12 @@ const messages = { // eslint-disable-line no-unused-vars
     downloadConfig: 'Скачать конфигурацию',
     madeBy: 'Автор',
     donate: 'Поблагодарить',
+    restore: 'Восстановить',
+    backup: 'Резеврная копия',
+    toggleCharts: 'Показать/скрыть график',
+    titleRestoreConfig: 'Восстановленеи резеврной копии',
+    titleBackupConfig: 'Создание резеврной копии',
+    theme: { dark: 'Темная тема', light: 'Светлая тема', auto: 'Автоматическая тема' },
   },
   tr: { // Müslüm Barış Korkmazer @babico
     name: 'İsim',
