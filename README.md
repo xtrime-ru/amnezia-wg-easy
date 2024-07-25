@@ -1,10 +1,4 @@
-# WireGuard Easy
-
-[![Build & Publish Docker Image to Docker Hub](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml/badge.svg?branch=production)](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml)
-[![Lint](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml)
-![Docker](https://img.shields.io/docker/pulls/weejewel/wg-easy.svg)
-[![Sponsor](https://img.shields.io/github/sponsors/weejewel)](https://github.com/sponsors/WeeJeWel)
-![GitHub Stars](https://img.shields.io/github/stars/wg-easy/wg-easy)
+# AmnewziaWG Easy
 
 You have found the easiest way to install & manage WireGuard on any Linux host!
 
@@ -13,7 +7,7 @@ You have found the easiest way to install & manage WireGuard on any Linux host!
 </p>
 
 ## Features
-* All-in-one: WireGuard + Web UI.
+* All-in-one: AmneziaWG + Web UI.
 * Easy installation, simple to use.
 * List, create, edit, delete, enable & disable clients.
 * Show a client's QR code.
@@ -27,19 +21,7 @@ You have found the easiest way to install & manage WireGuard on any Linux host!
 
 ## Requirements
 
-* A host with a kernel that supports WireGuard (all modern kernels).
 * A host with Docker installed.
-
-## Versions
-
-We provide more then 1 docker image to get, this will help you decide which one is best for you.
-
-| tag | Branch | Example | Description |
-| - | - | - | - |
-| `latest` | production | `ghcr.io/wg-easy/wg-easy:latest` or `ghcr.io/wg-easy/wg-easy` | stable as possbile get bug fixes quickly when needed, deployed against `production`. |
-| `13` | production | `ghcr.io/wg-easy/wg-easy:13` | same as latest, stick to a version tag. |
-| `nightly` | master | `ghcr.io/wg-easy/wg-easy:nightly` | mostly unstable gets frequent package and code updates, deployed against `master`. |
-| `development` | pull requests | `ghcr.io/wg-easy/wg-easy:development` | used for development, testing code from PRs before landing into `master`. |
 
 ## Installation
 
@@ -55,27 +37,28 @@ exit
 
 And log in again.
 
-### 2. Run WireGuard Easy
+### 2. Run AmneziaWG Easy
 
 To automatically install & run wg-easy, simply run:
 
 ```
   docker run -d \
-  --name=wg-easy \
-  -e LANG=de \
+  --name=amnezia-wg-easy \
+  -e LANG=en \
   -e WG_HOST=<🚨YOUR_SERVER_IP> \
   -e PASSWORD_HASH=<🚨YOUR_ADMIN_PASSWORD_HASH> \
   -e PORT=51821 \
   -e WG_PORT=51820 \
-  -v ~/.wg-easy:/etc/wireguard \
+  -v ~/.amnezia-wg-easy:/etc/wireguard \
   -p 51820:51820/udp \
   -p 51821:51821/tcp \
   --cap-add=NET_ADMIN \
   --cap-add=SYS_MODULE \
   --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
   --sysctl="net.ipv4.ip_forward=1" \
+  --device=/dev/net/tun:/dev/net/tun \
   --restart unless-stopped \
-  ghcr.io/wg-easy/wg-easy
+  ghcr.io/w0rng/amnezia-wg-easy
 ```
 
 > 💡 Replace `YOUR_SERVER_IP` with your WAN IP, or a Dynamic DNS hostname.
@@ -84,15 +67,7 @@ To automatically install & run wg-easy, simply run:
 
 The Web UI will now be available on `http://0.0.0.0:51821`.
 
-> 💡 Your configuration files will be saved in `~/.wg-easy`
-
-WireGuard Easy can be launched with Docker Compose as well - just download
-[`docker-compose.yml`](docker-compose.yml), make necessary adjustments and
-execute `docker compose up --detach`.
-
-### 3. Sponsor
-
-Are you enjoying this project? [Buy Emile a beer!](https://github.com/sponsors/WeeJeWel) 🍻
+> 💡 Your configuration files will be saved in `~/.amnezia-wg-easy`
 
 ## Options
 
@@ -120,6 +95,15 @@ These options can be configured by setting environment variables using `-e KEY="
 | `LANG` | `en` | `de` | Web UI language (Supports: en, ua, ru, tr, no, pl, fr, de, ca, es, ko, vi, nl, is, pt, chs, cht, it, th, hi).                                        |
 | `UI_TRAFFIC_STATS` | `false` | `true` | Enable detailed RX / TX client stats in Web UI                                                                                                       |
 | `UI_CHART_TYPE` | `0` | `1` | UI_CHART_TYPE=0 # Charts disabled, UI_CHART_TYPE=1 # Line chart, UI_CHART_TYPE=2 # Area chart, UI_CHART_TYPE=3 # Bar chart                           |
+| `JC` | `random` | `5` | Junk packet count — number of packets with random data that are sent before the start of the session. |
+| `JMIN` | `50` | `25` | Junk packet minimum size — minimum packet size for Junk packet. That is, all randomly generated packets will have a size no smaller than Jmin. |
+| `JMAX` | `1000` | `250` | Junk packet maximum size — maximum size for Junk packets. |
+| `S1` | `random` | `75` | Init packet junk size — the size of random data that will be added to the init packet, the size of which is initially fixed. |
+| `S2` | `random` | `75` | Response packet junk size — the size of random data that will be added to the response packet, the size of which is initially fixed. |
+| `H1` | `random` | `1234567891` | Init packet magic header — the header of the first byte of the handshake. Must be < uint_max. |
+| `H2` | `random` | `1234567892` | Response packet magic header — header of the first byte of the handshake response. Must be < uint_max. |
+| `H3` | `random` | `1234567893` | Underload packet magic header — UnderLoad packet header. Must be < uint_max. |
+| `H4` | `random` | `1234567894` | Transport packet magic header — header of the packet of the data packet. Must be < uint_max. |
 
 > If you change `WG_PORT`, make sure to also change the exposed port.
 
@@ -130,22 +114,14 @@ To update to the latest version, simply run:
 ```bash
 docker stop wg-easy
 docker rm wg-easy
-docker pull ghcr.io/wg-easy/wg-easy
+docker pull ghcr.io/w0rng/amnezia-wg-easy
 ```
 
 And then run the `docker run -d \ ...` command above again.
 
-With Docker Compose WireGuard Easy can be updated with a single command:
-`docker compose up --detach --pull always` (if an image tag is specified in the
-Compose file and it is not `latest`, make sure that it is changed to the desired
-one; by default it is omitted and
-[defaults to `latest`](https://docs.docker.com/engine/reference/run/#image-references)). \
-The WireGuared Easy container will be automatically recreated if a newer image
-was pulled.
+## Thanks
 
-## Common Use Cases
-
-* [Using WireGuard-Easy with Pi-Hole](https://github.com/wg-easy/wg-easy/wiki/Using-WireGuard-Easy-with-Pi-Hole)
-* [Using WireGuard-Easy with nginx/SSL](https://github.com/wg-easy/wg-easy/wiki/Using-WireGuard-Easy-with-nginx-SSL)
-
-For less common or specific edge-case scenarios, please refer to the detailed information provided in the [Wiki](https://github.com/wg-easy/wg-easy/wiki).
+Based on [wg-easy](https://github.com/wg-easy/wg-easy) by Emile Nijssen.  
+Use integrations with AmneziaWg from [
+amnezia-wg-easy
+](https://github.com/spcfox/amnezia-wg-easy) by Viktor Yudov.
