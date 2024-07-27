@@ -38,6 +38,9 @@ module.exports.LANG = process.env.LANG || 'en';
 module.exports.UI_TRAFFIC_STATS = process.env.UI_TRAFFIC_STATS || 'false';
 module.exports.UI_CHART_TYPE = process.env.UI_CHART_TYPE || 0;
 
+module.exports.DICEBEAR_TYPE = process.env.DICEBEAR_TYPE || false;
+module.exports.USE_GRAVATAR = process.env.USE_GRAVATAR || false;
+
 const getRandomInt = (min, max) => min + Math.floor(Math.random() * (max - min));
 const getRandomJunkSize = () => getRandomInt(15, 150);
 const getRandomHeader = () => getRandomInt(1, 2_147_483_647);

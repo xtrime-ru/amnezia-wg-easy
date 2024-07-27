@@ -71,6 +71,10 @@ new Vue({
     uiTrafficStats: false,
 
     uiChartType: 0,
+    avatarSettings: {
+      'dicebear': null,
+      'gravatar': false,
+    },
     uiShowCharts: localStorage.getItem('uiShowCharts') === '1',
     uiTheme: localStorage.theme || 'auto',
     prefersDarkScheme: window.matchMedia('(prefers-color-scheme: dark)'),
@@ -173,10 +177,10 @@ new Vue({
 
       const clients = await this.api.getClients();
       this.clients = clients.map((client) => {
-        if (client.name.includes('@') && client.name.includes('.')) {
+        if (client.name.includes('@') && client.name.includes('.') && this.avatarSettings.gravatar) {
           client.avatar = `https://gravatar.com/avatar/${sha256(client.name.toLowerCase().trim())}.jpg`;
-        } else {
-          client.avatar = `https://api.dicebear.com/9.x/bottts/svg?seed=${sha256(client.name.toLowerCase().trim())}`
+        } else if (this.avatarSettings.dicebear) {
+          client.avatar = `https://api.dicebear.com/9.x/${this.avatarSettings.dicebear}/svg?seed=${sha256(client.name.toLowerCase().trim())}`
         }
 
         if (!this.clientsPersist[client.id]) {
@@ -384,6 +388,17 @@ new Vue({
       })
       .catch(() => {
         this.uiChartType = 0;
+      });
+
+    this.api.getAvatarSettings()
+      .then((res) => {
+        this.avatarSettings = res;
+      })
+      .catch(() => {
+          this.avatarSettings = {
+            'dicebear': null,
+            'gravatar': false,
+          };
       });
 
     Promise.resolve().then(async () => {

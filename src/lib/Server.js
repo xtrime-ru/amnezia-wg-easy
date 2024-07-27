@@ -32,6 +32,8 @@ const {
   LANG,
   UI_TRAFFIC_STATS,
   UI_CHART_TYPE,
+  DICEBEAR_TYPE,
+  USE_GRAVATAR,
 } = require('../config');
 
 const requiresPassword = !!PASSWORD_HASH;
@@ -90,6 +92,14 @@ module.exports = class Server {
       .get('/api/ui-chart-type', defineEventHandler((event) => {
         setHeader(event, 'Content-Type', 'application/json');
         return `"${UI_CHART_TYPE}"`;
+      }))
+
+      .get('/api/ui-avatar-settings', defineEventHandler((event) => {
+        setHeader(event, 'Content-Type', 'application/json');
+        return {
+          dicebear: DICEBEAR_TYPE,
+          gravatar: USE_GRAVATAR,
+        }
       }))
 
       // Authentication

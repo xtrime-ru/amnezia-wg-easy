@@ -57,6 +57,13 @@ class API {
     });
   }
 
+  async getAvatarSettings() {
+    return this.call({
+      method: 'get',
+      path: '/ui-avatar-settings',
+    });
+  }
+
   async getSession() {
     return this.call({
       method: 'get',
