@@ -10,6 +10,7 @@
   <link rel="apple-touch-icon" href="./img/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <style>
   [v-cloak] {
@@ -559,7 +560,7 @@
             </svg>
           </div>
 
-          <input type="password" name="password" :placeholder="$t('password')" v-model="password"
+          <input type="password" name="password" :placeholder="$t('password')" v-model="password" autocomplete="current-password"
             class="px-3 py-2 text-sm dark:bg-neutral-700 text-gray-500 dark:text-gray-500 mb-5 border-2 border-gray-100 dark:border-neutral-800 rounded-lg w-full focus:border-red-800 dark:focus:border-red-800 dark:placeholder:text-neutral-400 outline-none" />
 
           <button v-if="authenticating"
