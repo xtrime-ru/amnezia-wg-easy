@@ -10,7 +10,7 @@ services:
     volumes:
       - etc_wireguard:/etc/wireguard
     ports:
-      - "${WG_PORT}:51820/udp"
+      - "${WG_PORT}:${WG_PORT}/udp"
       - "${PORT}:${PORT}/tcp"
     restart: unless-stopped
     cap_add:
