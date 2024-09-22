@@ -126,8 +126,8 @@ These options can be configured by setting environment variables using `-e KEY="
 To update to the latest version, simply run:
 
 ```bash
-docker stop wg-easy
-docker rm wg-easy
+docker stop amnezia-wg-easy
+docker rm amnezia-wg-easy
 docker pull ghcr.io/w0rng/amnezia-wg-easy
 ```
 
